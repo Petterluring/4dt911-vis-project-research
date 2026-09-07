@@ -1,0 +1,45 @@
+[project]
+name = "vis-project-research"
+version = "1.0.0"
+description = "Research repo for the 4DT911 visualization project"
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+authors = [{ name = "Petter Gustafsson", email = "petter.gustafsson1998@gmail.com" }]
+maintainers = [{ name = "Petter Gustafsson", email = "petter.gustafsson1998@gmail.com" }]
+
+dependencies = [
+    "ipykernel>=7.3.0,<7.4.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.16.0,<0.17.0",
+]
+
+[tool.poetry]
+package-mode = false
+#packages = [{ include = "notebooks" }]
+
+
+[tool.ruff]
+include = [
+    "notebooks/**/*.ipynb",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "D",
+]
+ignore = [
+    "D105", # Magic methods do not need docstrings.
+    "D107", # __init__ methods do not need docstrings.
+    "D211", # Incorrect blacnk line before class
+    "D213", # Multi line summary second line
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0"]
+build-backend = "poetry.core.masonry.api"
