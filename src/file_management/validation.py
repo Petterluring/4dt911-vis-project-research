@@ -8,7 +8,7 @@ def validate_file_path(path: str | Path) -> Path:
     if isinstance(path, str):
         path = Path(path)
     if not path.exists():
-        raise FileNotFoundError("Path does not exist.")
+        raise FileNotFoundError(f"Path does not exist: {path}")
     if not path.is_file():
-        raise ValueError("Path is not a file.")
+        raise ValueError(f"Path is not a file: {path}")
     return path

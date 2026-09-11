@@ -4,14 +4,14 @@ from pathlib import Path
 
 from mlflow import set_tracking_uri
 
-from files import load_env_file, validate_file_path
+from file_management import load_env_file, validate_file_path
 
 # These constants define the default paths for MLflow configuration files.
 # If all project members use the same paths, we can avoid hardcoding them in multiple
 # places.
 MLFLOW_DATA_DIR = Path("~/.mlflow-data").expanduser()
 MLFLOW_ENV_FILE = MLFLOW_DATA_DIR / ".env"
-MLFLOW_CERT_FILE = MLFLOW_DATA_DIR / "LNU_FTK_Campus_Root_CA_2025.crt"
+MLFLOW_CERT_FILE = MLFLOW_DATA_DIR / "SSL_certificate.crt"
 
 def _set_tracking_and_credentials_from_env() -> None:
     tracking_uri = getenv("MLFLOW_TRACKING_URI")
