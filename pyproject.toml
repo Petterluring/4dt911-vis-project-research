@@ -8,22 +8,26 @@ authors = [{ name = "Petter Gustafsson", email = "petter.gustafsson1998@gmail.co
 maintainers = [{ name = "Petter Gustafsson", email = "petter.gustafsson1998@gmail.com" }]
 
 dependencies = [
-    "ipykernel>=7.3.0,<7.4.0"
+    "ipykernel>=7.3.0,<7.4.0",
+    "mlflow-skinny>=3.16.0, <4.0.0", # Python>=3.10
 ]
 
 [project.optional-dependencies]
 dev = [
     "ruff>=0.16.0,<0.17.0",
+    "mypy>=2.3.0,<3.0.0",
 ]
 
 [tool.poetry]
-package-mode = false
-#packages = [{ include = "notebooks" }]
+packages = [
+    { include = "*", from = "src" }
+]
 
 
 [tool.ruff]
 include = [
     "notebooks/**/*.ipynb",
+    "src/**/*.py",
 ]
 
 [tool.ruff.lint]
@@ -39,6 +43,13 @@ ignore = [
     "D211", # Incorrect blacnk line before class
     "D213", # Multi line summary second line
 ]
+
+[tool.mypy]
+strict = true
+files = [
+    "src",
+]
+
 
 [build-system]
 requires = ["poetry-core>=2.0.0"]

@@ -1,0 +1,60 @@
+"""Module for configuring MLflow settings."""
+from os import environ, getenv
+from pathlib import Path
+
+from mlflow import set_tracking_uri
+
+from files import load_env_file, validate_file_path
+
+# These constants define the default paths for MLflow configuration files.
+# If all project members use the same paths, we can avoid hardcoding them in multiple
+# places.
+MLFLOW_DATA_DIR = Path("~/.mlflow-data").expanduser()
+MLFLOW_ENV_FILE = MLFLOW_DATA_DIR / ".env"
+MLFLOW_CERT_FILE = MLFLOW_DATA_DIR / "LNU_FTK_Campus_Root_CA_2025.crt"
+
+def _set_tracking_and_credentials_from_env() -> None:
+    tracking_uri = getenv("MLFLOW_TRACKING_URI")
+    username = getenv("MLFLOW_TRACKING_USERNAME")
+    password = getenv("MLFLOW_TRACKING_PASSWORD")
+
+    if tracking_uri:
+        set_tracking_uri(tracking_uri)
+    else:
+        raise ValueError("MLFLOW_TRACKING_URI environment variable is not set.")
+
+    # Username and password does not need to be set explicitly.
+    # We only need to check that they exist in the environment variables
+    # and mlflow client will handle the authentication automatically.
+    if not (username and password):
+        raise ValueError(
+            "MLFLOW_TRACKING_USERNAME and " +
+            "MLFLOW_TRACKING_PASSWORD environment " + 
+            "variables are not set.")
+
+def load_config(
+        env_path: str | Path = MLFLOW_ENV_FILE,
+        certificate_path: str | Path = MLFLOW_CERT_FILE,
+        set_tracking_and_credentials: bool = True
+) -> None:
+    """Load MLflow configuration.
+
+    Args:
+        env_path: str | Path - Path to the .env file containing MLflow configuration.
+        certificate_path: str | Path - Path to the certificate file for MLflow tracking.
+        set_tracking_and_credentials: bool -  If True, set MLflow tracking URI
+                                             and credentials from environment
+                                             variables after loading the .env file.
+    Expected environment variables in .env file:
+            - MLFLOW_TRACKING_URI: The URI for the MLflow tracking server.
+            - MLFLOW_TRACKING_USERNAME: The username for MLflow tracking server
+                                        authentication. 
+            - MLFLOW_TRACKING_PASSWORD: The password for MLflow tracking server
+                                        authentication.
+
+    """
+    certificate_path = validate_file_path(certificate_path)
+    environ["MLFLOW_TRACKING_SERVER_CERT_PATH"] = str(certificate_path)
+    load_env_file(env_path)
+    if set_tracking_and_credentials:
+        _set_tracking_and_credentials_from_env()
