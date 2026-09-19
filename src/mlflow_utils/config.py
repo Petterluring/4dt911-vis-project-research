@@ -58,3 +58,5 @@ def load_config(
     load_env_file(env_path)
     if set_tracking_and_credentials:
         _set_tracking_and_credentials_from_env()
+
+    print("Configuration loaded successfully.")

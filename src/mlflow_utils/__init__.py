@@ -1,7 +1,9 @@
 """Package for configuration related tools."""
 
-from .mlflow_config import load_config
+from .config import load_config
+from .tracking import test_server_connection
 
 __all__ = [
     "load_config",
+    "test_server_connection",
 ]
