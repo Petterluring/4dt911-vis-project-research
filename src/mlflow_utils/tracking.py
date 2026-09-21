@@ -1,14 +1,12 @@
 """Module for mlflow tracking utilities."""
 
-from __future__ import annotations
+from mlflow import MlflowClient
 
-from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from mlflow import MlflowClient
-
-def test_server_connection(client: MlflowClient) -> None:
+def test_server_connection(client: MlflowClient | None = None) -> None:
     """Test the connection to the MLFlow tracking server."""
+    if client is None:
+        client = MlflowClient()
     try:
         experiments = client.search_experiments(max_results=1)
         print("MLflow connection successful!")
