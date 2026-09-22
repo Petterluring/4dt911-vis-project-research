@@ -55,6 +55,7 @@ def load_config(
     """
     certificate_path = validate_file_path(certificate_path)
     environ["MLFLOW_TRACKING_SERVER_CERT_PATH"] = str(certificate_path)
+    environ["MLFLOW_ENABLE_PROXY_MULTIPART_DOWNLOAD"] = "false"
     load_env_file(env_path)
     if set_tracking_and_credentials:
         _set_tracking_and_credentials_from_env()
