@@ -15,6 +15,8 @@ dependencies = [
     "matplotlib>=3.11.2",
     "pandas>=3.0.6",
     "skops>=0.15.0",
+    "psycopg[binary,pool]>=3.3.6",
+    "SQLAlchemy>=2.0.54",
 ]
 
 [project.optional-dependencies]
@@ -35,6 +37,8 @@ include = [
     "src/**/*.py",
 ]
 
+line-length = 120
+
 [tool.ruff.lint]
 select = [
     "E",
@@ -43,10 +47,12 @@ select = [
     "D",
 ]
 ignore = [
-    "D105", # Magic methods do not need docstrings.
-    "D107", # __init__ methods do not need docstrings.
+    "D105", # Magic methods do not need docstrings
+    "D107", # __init__ methods do not need docstrings
     "D211", # Incorrect blacnk line before class
     "D213", # Multi line summary second line
+    "D203", # Ignore one line between class and docstring
+    "D204", # Ignore one line between docstring and fields
 ]
 
 [tool.mypy]
