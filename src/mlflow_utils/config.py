@@ -9,19 +9,20 @@ from file_management import load_env_file, validate_file_path
 # These constants define the default paths for MLflow configuration files.
 # If all project members use the same paths, we can avoid hardcoding them in multiple
 # places.
-MLFLOW_DATA_DIR = Path("~/.mlflow-data").expanduser()
-MLFLOW_ENV_FILE = MLFLOW_DATA_DIR / ".env"
-MLFLOW_CERT_FILE = MLFLOW_DATA_DIR / "SSL_certificate.crt"
+MLFLOW_RESOURCES = Path("~/4dt911-resources/mlflow").expanduser()
+MLFLOW_ENV_FILE = MLFLOW_RESOURCES / "config.env"
+MLFLOW_CERT_FILE = MLFLOW_RESOURCES / "SSL_certificate.crt"
 
 def _set_tracking_and_credentials_from_env() -> None:
     tracking_uri = getenv("MLFLOW_TRACKING_URI")
     username = getenv("MLFLOW_TRACKING_USERNAME")
     password = getenv("MLFLOW_TRACKING_PASSWORD")
 
-    if tracking_uri:
-        set_tracking_uri(tracking_uri)
-    else:
+    if not tracking_uri:
         raise ValueError("MLFLOW_TRACKING_URI environment variable is not set.")
+
+    set_tracking_uri(tracking_uri)
+        
 
     # Username and password does not need to be set explicitly.
     # We only need to check that they exist in the environment variables
@@ -45,17 +46,19 @@ def load_config(
         set_tracking_and_credentials: bool -  If True, set MLflow tracking URI
                                              and credentials from environment
                                              variables after loading the .env file.
+
     Expected environment variables in .env file:
             - MLFLOW_TRACKING_URI: The URI for the MLflow tracking server.
             - MLFLOW_TRACKING_USERNAME: The username for MLflow tracking server
                                         authentication. 
             - MLFLOW_TRACKING_PASSWORD: The password for MLflow tracking server
                                         authentication.
+            - MLFLOW_ENABLE_PROXY_MULTIPART_DOWNLOAD: Whether to enable proxy multipart
+                                                      download in MLflow.
 
     """
     certificate_path = validate_file_path(certificate_path)
     environ["MLFLOW_TRACKING_SERVER_CERT_PATH"] = str(certificate_path)
-    environ["MLFLOW_ENABLE_PROXY_MULTIPART_DOWNLOAD"] = "false"
     load_env_file(env_path)
     if set_tracking_and_credentials:
         _set_tracking_and_credentials_from_env()

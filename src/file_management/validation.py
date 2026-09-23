@@ -12,3 +12,12 @@ def validate_file_path(path: str | Path) -> Path:
     if not path.is_file():
         raise ValueError(f"Path is not a file: {path}")
     return path
+
+
+def validate_suffix(path: str | Path, suffix: str) -> Path:
+    """Validate if the file has the specified suffix."""
+    if isinstance(path, str):
+        path = Path(path)
+    if path.suffix != suffix:
+        raise ValueError(f"File does not have the required suffix '{suffix}': {path}")
+    return path
