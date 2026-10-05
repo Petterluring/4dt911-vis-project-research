@@ -14,9 +14,6 @@ named.
 - Python 3.14 or newer
 - [Poetry](https://python-poetry.org/docs/#installation) 2.x
 - Access to the project's MLflow tracking server
-- The following MLflow connection resources:
-  - An environment file containing the MLflow server URL, username, and password
-  - The SSL certificate issued by LNU (Linnaeus University) for the MLflow server
 
 Do not commit credentials or the certificate to this repository. Store them in
 your user directory as described below.
@@ -52,65 +49,27 @@ dependencies from `poetry.lock`.
 It is assumed that the user knows how to run .ipynb notebooks using IDEs such as VS code.
 
 
-## MLflow configuration
+## Access to Remote Services
 
-The MLflow helper in `src/mlflow_utils/mlflow_config.py` expects the following
-files in `~/.mlflow-data/`:
+The research part of the project depend on a remote virtual machine hosted on Linnaeus University's (LNU) Computer Science (CS) cloud. The machine is accessible at [cu0089.camp.lnu.se](https://cu0089.camp.lnu.se/).
 
-```text
-~/.mlflow-data/
-├── .env
-└── SSL_certificate.crt
-```
+Access to the virtual machine requires a connection to the EDU VPN when accessing it from outside the campus network. See the [VPN instructions](https://www.lnu.se/mot-linneuniversitetet/aktuellt/nyheter/2025/nytt-student-vpn/) for information on configuring the VPN connection.
 
-Create the directory:
+The project also requires access to the `4dt911-resources` folder, which contains the credentials necessary to connect to the remote services. Contact a project member to obtain access to this folder. The folder contains configuration files with the credentials required to access the two services on which the research depends on:
 
-```bash
-mkdir -p ~/.mlflow-data
-```
+* **MLflow** — used for machine learning experiment tracking and model management.
+* **PostgreSQL** — used as the project's database.
 
-### Environment file
-
-Create `~/.mlflow-data/.env` with the credentials supplied for the project's
-MLflow server:
-
-```dotenv
-MLFLOW_TRACKING_URI=https://<mlflow-server-url>
-MLFLOW_TRACKING_USERNAME=<mlflow-username>
-MLFLOW_TRACKING_PASSWORD=<mlflow-password>
-```
-The server must be communicated over https.
-
-Keep this file private and restrict its permissions where supported:
+Once you have obtained the folder, place it in your home directory. Make sure that the `HOME` environment variable is correctly configured on your machine. You can verify this by running:
 
 ```bash
-chmod 600 ~/.mlflow-data/.env
+echo $HOME
 ```
 
-### LNU SSL certificate
+If configured correctly, the command should print the path to your home directory.
 
-Obtain the CA/server certificate from the LNU university from the project's MLflow administrators. Save the certificate in PEM/CRT format as:
+Once everything is set up, you can test the connections to the MLflow and PostgreSQL servers by running the `connection_test.ipynb` notebooks located in `notebooks/demos/mlflow/` and `notebooks/demos/postgresql/`, respectively.
 
-```text
-~/.mlflow-data/SSL_certificate.crt
-```
-
-The MLflow helper sets `MLFLOW_TRACKING_SERVER_CERT_PATH` to this file before
-connecting. This lets the MLflow client trust the HTTPS certificate presented by
-the server. The file must exist and be readable; otherwise configuration loading
-fails before a connection is attempted.
-
-If the certificate or environment file is stored elsewhere, pass the paths
-explicitly when loading the configuration:
-
-```python
-from mlflow_utils import load_config
-
-load_config(
-    env_path="/path/to/.env",
-    certificate_path="/path/to/SSL_certificate.crt",
-)
-```
 
 ## Repository layout
 
@@ -123,10 +82,8 @@ poetry.lock                # Reproducible dependency lock file
 
 ## Security and data handling
 
-- Never commit `~/.mlflow-data/.env`, passwords, access tokens, or private keys.
+- Never commit `~/4dt911-resources`, passwords, access tokens, or private keys.
 - Never commit private or institution-provided certificates unless explicitly
   approved by LNU and the project maintainers.
-- Use separate MLflow credentials for development and production/backend
-  services where possible.
 - Avoid placing sensitive data in notebooks, notebook outputs, or experiment
   parameters.
