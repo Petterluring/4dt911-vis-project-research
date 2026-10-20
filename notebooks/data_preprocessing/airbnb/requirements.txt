@@ -1,0 +1,2 @@
+# Extra requirements that are needed for the Airbnb data preprocessing notebooks.
+geopandas>=1.2.0
