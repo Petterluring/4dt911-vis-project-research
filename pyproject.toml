@@ -15,8 +15,7 @@ dependencies = [
     "matplotlib>=3.11.2",
     "pandas>=3.0.6",
     "skops>=0.15.0",
-    "psycopg[binary,pool]>=3.3.6",
-    "SQLAlchemy>=2.0.54",
+    "SQLAlchemy[asyncio, postgresql-psycopgbinary]>=2.1.4",
 ]
 
 [project.optional-dependencies]
