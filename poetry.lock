@@ -3453,4 +3453,4 @@ dev = ["mypy", "ruff"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.14.0, <3.15.0"
-content-hash = "ce843ee1f03d209fa2d516e1fff4130e47d368c1644affb2758568087cb34eac"
+content-hash = "d9282a5694b8411bb8b3d00573112a026ef027ac600c84f18f51021aae66b06e"
