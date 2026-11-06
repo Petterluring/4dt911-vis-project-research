@@ -1,0 +1,18 @@
+{
+    "model_uri": "models:/m-dc27602762784e89be366619a944d9c4",
+    "feature_names": [
+        "accommodates",
+        "bedrooms",
+        "latitude",
+        "longitude",
+        "amenity_count",
+        "room_type"
+    ],
+    "room_to_code": {
+        "Entire home/apt": 0,
+        "Private room": 1,
+        "Shared room": 2
+    },
+    "shap_algorithm": "permutation",
+    "shap_max_evals": 200
+}
