@@ -1,0 +1,41 @@
+{
+  "model_uri": "models:/m-c32e28368f0342d29635e00a6cab9a61",
+  "features": [
+    "room_type",
+    "accommodates",
+    "bedrooms",
+    "beds",
+    "district",
+    "amenity_count"
+  ],
+  "categorical_features": [
+    "room_type",
+    "district"
+  ],
+  "category_mappings": {
+    "room_type": {
+      "Entire home/apt": 0,
+      "Private room": 1,
+      "Shared room": 2
+    },
+    "district": {
+      "Bromma": 0,
+      "Enskede-Årsta-Vantör": 1,
+      "Farsta": 2,
+      "Hägersten-Älvsjö": 3,
+      "Hässelby-Vällingby": 4,
+      "Järva": 5,
+      "Kungsholmen": 6,
+      "Norra innerstaden": 7,
+      "Skarpnäck": 8,
+      "Skärholmen": 9,
+      "Södermalm": 10
+    }
+  },
+  "algorithm": "permutation",
+  "max_evals": 200,
+  "background_samples": 30,
+  "random_state": 42,
+  "output_unit": "SEK",
+  "background_file": "shap_background.csv"
+}
