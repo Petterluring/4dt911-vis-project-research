@@ -16,6 +16,8 @@ dependencies = [
     "psutil==7.2.2",
     "pandas==3.0.6",
     "skops==0.15.0",
+    "kmodes==0.12.2",
+    "shap==0.54.1",
     "SQLAlchemy[asyncio, postgresql-psycopgbinary]>=2.1.4",
 ]
 
